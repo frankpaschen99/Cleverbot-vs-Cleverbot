@@ -1,36 +1,56 @@
 var Cleverbot = require('cleverbot-node');
-var CleverbotA = new Cleverbot;
-var CleverbotB = new Cleverbot;
-var app = require('express')();
-var http = require('http').Server(app);
+CleverbotA = new Cleverbot;
+CleverbotB = new Cleverbot;
+io = require('socket.io').listen(3000);
+clients = [];
 
-io.on('connection', function(socket) {
-    socket.on('cleverbot_prompt', function(msg) {
-		if(msg ==== "") promptA(msg);
+io.sockets.on('connection', function (socket) {
+	console.log("Client connected: " + socket.id);
+	clients.push(socket);
+    socket.on("cleverbot_prompt", function(initialPrompt) {
+		console.log("PROMPT: " + initialPrompt);
+		promptA(initialPrompt, socket);
+    });
+	socket.on('disconnect', function() {
+        var index = clients.indexOf(socket);
+        if (index != -1) {
+            clients.splice(index, 1);
+        }
+		console.log("Client disconnected: " + socket.id);
     });
 });
 
-http.listen(2684, function() {
-    console.log('listening on *:3000');
-});
-
-function promptA(message) {
+function promptA(message, socket) {
     Cleverbot.prepare(function() {
         CleverbotA.write(message, function(response) {
             console.log("Cleverbot A: " + response.message);
             setTimeout(function() {
-                promptB(response.message);
+				if (clients.length > 0) {
+					clients.forEach(function(index) {
+						if (socket.id == index.id) {
+							index.emit('response', "Cleverbot A: " + response.message);
+						}
+					});
+				} else return;
+                promptB(response.message, socket);
             }, 1000);
         });
     });
 }
 
-function promptB(message) {
+function promptB(message, socket) {
     Cleverbot.prepare(function() {
         CleverbotB.write(message, function(response) {
             console.log("Cleverbot B: " + response.message);
             setTimeout(function() {
-                promptA(response.message);
+				if (clients.length > 0) {
+					clients.forEach(function(index) {
+						if (socket.id == index.id) {
+							index.emit('response', "Cleverbot B: " + response.message);
+						}
+					});
+				} else return;
+                promptA(response.message, socket);
             }, 1000);
         });
     });
