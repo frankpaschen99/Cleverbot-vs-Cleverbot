@@ -4,13 +4,20 @@
 		<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 		<script>
 		var socket = io.connect('http://localhost:3000');
-		socket.emit("cleverbot_prompt", "Are you a robot?");
-			socket.on('response', function(msg) {
-			console.log(msg);
+		socket.on('response', function(msg) {
+			var div = document.getElementById('chatbox');
+			div.innerHTML = div.innerHTML + "<br />" + msg;
 		});
+		function emit() {
+		console.log('called');
+			socket.emit("cleverbot_prompt", document.getElementById('cleverbotprompt').value);
+		}
 		</script>
 	</head>
 	<body>
-		<h2>CleverBattles</h2>
+		<p>Prompt:</p>
+		<input type="text" id="cleverbotprompt"><br>
+		<button type="button" onclick="emit()">Start Conversation</button>
+		<div id="chatbox"></div>
 	</body>
 </html>
