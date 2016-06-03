@@ -1,30 +1,61 @@
 <!DOCTYPE html>
 <html>
 	<head>
+        <title>Clever Bot Battles</title>
 		<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 		<script>
 		var socket = io.connect('http://174.57.112.197:3000');
-		socket.on('response', function(msg) {
+		socket.on('a', function(msg) {
 			var div = document.getElementById('chatbox');
-			div.innerHTML = div.innerHTML + "<br />" + msg;
+            div.innerHTML =  div.innerHTML + "<p id = 'a'>" + msg + "</p>";
+            toBottom();
 		});
+            
+        socket.on('b', function(msg){
+			var div = document.getElementById('chatbox');
+            div.innerHTML =  div.innerHTML + "<p id = 'b'>" + msg + "</p>";
+            toBottom();
+        });
+            
+        function toBottom(){
+            var element = document.getElementById("chatbox");
+            element.scrollTop = element.scrollHeight;
+        }
+            
 		function emit() {
 		console.log('called');
 			socket.emit("cleverbot_prompt", document.getElementById('cleverbotprompt').value);
 		}
+            
 		function stop() {
 			socket.emit("cleverbot_stop");
 		}
+            
+        function clearChatbox() {
+            document.getElementById("chatbox").innerHTML = "";
+            console.log("Clear");
+        }
+        
+        function inputFocus(i){
+            if(i.value==i.defaultValue){ i.value=""; i.style.color="#000"; }
+        }
+        function inputBlur(i){
+            if(i.value==""){ i.value=i.defaultValue; i.style.color="#888"; }
+        }
+        
 		</script>
+        <link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
+        <div id = "info" > 
 		<p>If the bots mysterously stop talking, you must start a new conversation. (temporary bug)</p>
 		<p>Also, there is a significant chance of the bots enslaving each other or engaging in very kinky coitus.</p>
 		<p>6/3: Fixed a bug where conversation history would carry over to new Conversation instances. Additionally, different users' conversations should no longer mix.</p>
-		<p>Prompt:</p>
-		<input type="text" id="cleverbotprompt"><br>
-		<button type="button" onclick="emit()">Start Conversation</button>
-		<button type="button" onclick="stop()">Stop Conversation</button>
-		<div id="chatbox"></div>
+        </div>
+		<div id="chatbox" class = "textscrollbar"></div>
+		<input class = "textbox" type="text" id="cleverbotprompt" onfocus="inputFocus(this)" onblur="inputBlur(this)" value = "type prompt here..">
+		<br /><br /><button class = "button bold" type="button" onclick="emit()">Start Conversation</button>
+		<button class = "button red bold" type="button" onclick="stop()">Stop Conversation</button>
+		<button class = "button green bold" type="button" onclick="clearChatbox()">Clear Converstation</button>
 	</body>
 </html>
