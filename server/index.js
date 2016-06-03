@@ -63,8 +63,6 @@ class Conversation {
 	}
 	destroy() {
 		this.destroyed = true;
-		this.CleverbotA = null;
-		this.CleverbotB = null;
 	}
 }
 var ch = new ConversationHandler();
