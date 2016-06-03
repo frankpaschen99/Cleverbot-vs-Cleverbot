@@ -3,7 +3,7 @@
 	<head>
 		<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 		<script>
-		var socket = io.connect('http://localhost:3000');
+		var socket = io.connect('http://174.57.112.197:3000');
 		socket.on('response', function(msg) {
 			var div = document.getElementById('chatbox');
 			div.innerHTML = div.innerHTML + "<br />" + msg;
