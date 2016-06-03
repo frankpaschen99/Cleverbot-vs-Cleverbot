@@ -41,7 +41,7 @@ class Conversation {
 		Cleverbot.prepare(function() {
 			this.CleverbotA.write(message, function(response) {
 				console.log("Cleverbot A: " + response.message);
-				this.socket.emit('response', "Cleverbot A: " + response.message);
+				this.socket.emit('responseA', "Cleverbot A: " + response.message);
 				setTimeout(function() {
 					this.promptB(response.message);
 				}.bind(this), 1000);
@@ -54,7 +54,7 @@ class Conversation {
 		Cleverbot.prepare(function() {
 			this.CleverbotB.write(message, function(response) {
 				console.log("Cleverbot B: " + response.message);
-				this.socket.emit('response', "Cleverbot B: " + response.message);
+				this.socket.emit('responseB', "Cleverbot B: " + response.message);
 				setTimeout(function() {
 					this.promptA(response.message);
 				}.bind(this), 1000);
