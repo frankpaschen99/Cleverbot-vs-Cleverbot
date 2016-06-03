@@ -12,12 +12,16 @@
 		console.log('called');
 			socket.emit("cleverbot_prompt", document.getElementById('cleverbotprompt').value);
 		}
+		function stop() {
+			socket.emit("cleverbot_stop");
+		}
 		</script>
 	</head>
 	<body>
 		<p>Prompt:</p>
 		<input type="text" id="cleverbotprompt"><br>
 		<button type="button" onclick="emit()">Start Conversation</button>
+		<button type="button" onclick="stop()">Stop Conversation</button>
 		<div id="chatbox"></div>
 	</body>
 </html>

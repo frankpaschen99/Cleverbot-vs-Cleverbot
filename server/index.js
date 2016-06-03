@@ -57,7 +57,7 @@ var ch = new ConversationHandler();
 
 io.sockets.on('connection', function (socket) {
 	console.log("Client connected: " + socket.id);
-    socket.on("cleverbot_prompt", function(initialPrompt) {
+    socket.on('cleverbot_prompt', function(initialPrompt) {
 		console.log("PROMPT: " + initialPrompt);
 		ch.add(socket, initialPrompt);
     });
@@ -65,4 +65,7 @@ io.sockets.on('connection', function (socket) {
 		ch.destroy(socket);
 		console.log("Client disconnected: " + socket.id);
     });
+	socket.on('cleverbot_stop', function() {
+		ch.destroy(socket);
+	});
 });
