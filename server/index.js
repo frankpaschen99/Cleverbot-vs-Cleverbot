@@ -1,6 +1,4 @@
 var Cleverbot = require('cleverbot-node');
-CleverbotA = new Cleverbot;
-CleverbotB = new Cleverbot;
 io = require('socket.io').listen(3000);
 
 class ConversationHandler {
@@ -12,7 +10,10 @@ class ConversationHandler {
 		this.conversations.forEach(function(index) {
 			if (index.socket == socket) exists = true;
 		}.bind(this));
-		if (!exists) this.conversations.push(new Conversation(socket, promptString));
+		if (!exists) {
+			this.conversations.push(new Conversation(socket, promptString));
+			console.log("New conversation created by socket id: " + socket.id);
+		}
 	}
 	destroy(socket) {
 		this.conversations.forEach(function(index) {
@@ -31,24 +32,31 @@ class Conversation {
 		this.socket = _socket;
 		this.promptA(promptString);
 		this.destroyed = false;
+		this.CleverbotA = new Cleverbot;
+		this.CleverbotB = new Cleverbot;
 	}
 	promptA(message) {
 		if (this.destroyed) return;
 		Cleverbot.prepare(function() {
-			CleverbotA.write(message, function(response) {
+			this.CleverbotA.write(message, function(response) {
 				console.log("Cleverbot A: " + response.message);
 				this.socket.emit('response', "Cleverbot A: " + response.message);
-				this.promptB(response.message);
+				setTimeout(function() {
+					this.promptB(response.message);
+				}.bind(this), 1000);
+				
 			}.bind(this));
 		}.bind(this));
 	}
 	promptB(message) {
 		if (this.destroyed) return;
 		Cleverbot.prepare(function() {
-			CleverbotB.write(message, function(response) {
+			this.CleverbotB.write(message, function(response) {
 				console.log("Cleverbot B: " + response.message);
 				this.socket.emit('response', "Cleverbot B: " + response.message);
-				this.promptA(response.message);
+				setTimeout(function() {
+					this.promptA(response.message);
+				}.bind(this), 1000);
 			}.bind(this));
 		}.bind(this));
 	}
@@ -63,9 +71,10 @@ io.sockets.on('connection', function (socket) {
     });
 	socket.on('disconnect', function() {
 		ch.destroy(socket);
-		console.log("Client disconnected: " + socket.id);
+		console.log("Client disconnected: " + socket.id + " - Destroying conversation.");
     });
 	socket.on('cleverbot_stop', function() {
+		console.log("Conversation stopped. Socket id: " + socket.id);
 		ch.destroy(socket);
 	});
 });

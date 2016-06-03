@@ -1,1 +1,1 @@
-1. Do not allow multiple conversations to be started from the same socket.
+1. Limit/slow down calls to Cleverbot. Also handle cases where Cleverbot does not return a response.
