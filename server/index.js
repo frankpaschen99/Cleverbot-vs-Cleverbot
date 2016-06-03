@@ -16,9 +16,10 @@ class ConversationHandler {
 		}
 	}
 	destroy(socket) {
+		socket.emit('response', "Conversation stopped.");
 		this.conversations.forEach(function(index) {
 			if (index.socket == socket) {
-				index.destroyed = true;
+				index.destroy();
 				var i = this.conversations.indexOf(index);
 				if (i > -1) {
 					this.conversations.splice(i, 1);
@@ -59,6 +60,11 @@ class Conversation {
 				}.bind(this), 1000);
 			}.bind(this));
 		}.bind(this));
+	}
+	destroy() {
+		this.destroyed = true;
+		this.CleverbotA = null;
+		this.CleverbotB = null;
 	}
 }
 var ch = new ConversationHandler();
