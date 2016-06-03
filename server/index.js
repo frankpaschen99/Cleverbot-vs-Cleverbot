@@ -8,34 +8,49 @@ class ConversationHandler {
 		this.conversations = [];
 	}
 	add(socket, promptString) {
-		this.conversations.push(new Conversation(socket, promptString));
+		var exists = false;
+		this.conversations.forEach(function(index) {
+			if (index.socket == socket) exists = true;
+		}.bind(this));
+		if (!exists) this.conversations.push(new Conversation(socket, promptString));
 	}
 	destroy(socket) {
-		this.conversations = [];
+		this.conversations.forEach(function(index) {
+			if (index.socket == socket) {
+				index.destroyed = true;
+				var i = this.conversations.indexOf(index);
+				if (i > -1) {
+					this.conversations.splice(i, 1);
+				}
+			}
+		}.bind(this));
 	}
 }
 class Conversation {
 	constructor(_socket, promptString) {
 		this.socket = _socket;
-		this.promptA(promptString, this.socket, this.promptB, this.promptA);
+		this.promptA(promptString);
+		this.destroyed = false;
 	}
-	promptA(message, socket, promptB, promptA, destroyed) {
+	promptA(message) {
+		if (this.destroyed) return;
 		Cleverbot.prepare(function() {
 			CleverbotA.write(message, function(response) {
-				console.log("Cleverbot B: " + response.message);
-				socket.emit('response', "Cleverbot A: " + response.message);
-				promptB(response.message, socket, promptB, promptA);
-			});
-		});
+				console.log("Cleverbot A: " + response.message);
+				this.socket.emit('response', "Cleverbot A: " + response.message);
+				this.promptB(response.message);
+			}.bind(this));
+		}.bind(this));
 	}
-	promptB(message, socket, promptB, promptA) {
+	promptB(message) {
+		if (this.destroyed) return;
 		Cleverbot.prepare(function() {
 			CleverbotB.write(message, function(response) {
 				console.log("Cleverbot B: " + response.message);
-				socket.emit('response', "Cleverbot B: " + response.message);
-				promptA(response.message, socket, promptB, promptA);
-			});
-		});
+				this.socket.emit('response', "Cleverbot B: " + response.message);
+				this.promptA(response.message);
+			}.bind(this));
+		}.bind(this));
 	}
 }
 var ch = new ConversationHandler();
@@ -45,7 +60,6 @@ io.sockets.on('connection', function (socket) {
     socket.on("cleverbot_prompt", function(initialPrompt) {
 		console.log("PROMPT: " + initialPrompt);
 		ch.add(socket, initialPrompt);
-		ch.destroy(socket);
     });
 	socket.on('disconnect', function() {
 		ch.destroy(socket);

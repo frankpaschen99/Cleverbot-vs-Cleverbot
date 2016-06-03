@@ -1,0 +1,1 @@
+1. Do not allow multiple conversations to be started from the same socket.
