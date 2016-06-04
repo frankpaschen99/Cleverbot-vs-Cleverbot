@@ -31,10 +31,10 @@ class Conversation {
 	constructor(_socket, promptString) {
 		this.Cleverbot = require('cleverbot-node');
 		this.socket = _socket;
-		this.promptA(promptString);
 		this.destroyed = false;
 		this.CleverbotA = new this.Cleverbot();
 		this.CleverbotB = new this.Cleverbot();
+		this.promptA(promptString);
 	}
 	promptA(message) {
 		if (this.destroyed) return;
