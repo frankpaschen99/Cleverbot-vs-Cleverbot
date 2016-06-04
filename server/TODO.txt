@@ -1,1 +1,0 @@
-1. Limit/slow down calls to Cleverbot. Also handle cases where Cleverbot does not return a response.

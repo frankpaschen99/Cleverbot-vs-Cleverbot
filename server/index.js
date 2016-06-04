@@ -1,5 +1,5 @@
 io = require('socket.io').listen(3000);
-
+Cleverbot = require('cleverbot-node');
 class ConversationHandler {
 	constructor() {
 		this.conversations = [];
@@ -29,16 +29,15 @@ class ConversationHandler {
 }
 class Conversation {
 	constructor(_socket, promptString) {
-		this.Cleverbot = require('cleverbot-node');
 		this.socket = _socket;
 		this.destroyed = false;
-		this.CleverbotA = new this.Cleverbot();
-		this.CleverbotB = new this.Cleverbot();
+		this.CleverbotA = new Cleverbot;
+		this.CleverbotB = new Cleverbot;
 		this.promptA(promptString);
 	}
 	promptA(message) {
 		if (this.destroyed) return;
-		this.Cleverbot.prepare(function() {
+		Cleverbot.prepare(function() {
 			this.CleverbotA.write(message, function(response) {
 				console.log("Cleverbot A: " + response.message);
 				this.socket.emit('a', response.message);
@@ -50,7 +49,7 @@ class Conversation {
 	}
 	promptB(message) {
 		if (this.destroyed) return;
-		this.Cleverbot.prepare(function() {
+		Cleverbot.prepare(function() {
 			this.CleverbotB.write(message, function(response) {
 				console.log("Cleverbot B: " + response.message);
 				this.socket.emit('b', response.message);
