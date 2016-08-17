@@ -1,3 +1,5 @@
+/* FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. */
+
 io = require('socket.io').listen(3000);
 Cleverbot = require('cleverbot-node');
 class ConversationHandler {
@@ -67,7 +69,7 @@ class Conversation {
 var ch = new ConversationHandler();
 
 io.sockets.on('connection', function (socket) {
-	console.log("Client connected: " + socket.id);
+		console.log("Client connected: " + socket.id);
     socket.on('cleverbot_prompt', function(initialPrompt) {
 		console.log("PROMPT: " + initialPrompt);
 		ch.add(socket, initialPrompt);
