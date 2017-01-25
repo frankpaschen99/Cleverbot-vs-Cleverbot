@@ -5,9 +5,9 @@ then load up the index.html on an apache server and im sure it'll work
 # Examples:
 
 
-![text](http://i.imgur.com/T4P4kgl.png)
-![text](http://i.imgur.com/BtVztbI.png)
-![text](http://i.imgur.com/rhVNsh4.png)
+*![text](http://i.imgur.com/T4P4kgl.png)
+*![text](http://i.imgur.com/BtVztbI.png)
+*![text](http://i.imgur.com/rhVNsh4.png)
 ![text](http://i.imgur.com/gj9jDKc.png)
 ![text](http://i.imgur.com/KGVtwqU.png)
 ![text](http://i.imgur.com/sqXbiEn.png)
