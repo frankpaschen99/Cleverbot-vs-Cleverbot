@@ -4,6 +4,11 @@ then load up the index.html on an apache server and im sure it'll work
 
 Sorry for shit formatting below, idk markdown and idrc
 
+
+This project uses this Cleverbot API wrapper (https://github.com/fojas/cleverbot-node)
+
+Currently cleverbot responses will return "<html>", so you gotta make an API key and then code in what you need to make that work cause im lazy glhf
+
 # Examples:
 
 
