@@ -33,14 +33,14 @@ class Conversation {
 	constructor(_socket, promptString) {
 		this.socket = _socket;
 		this.destroyed = false;
-		this.CleverbotA = new Cleverbot;
-		this.CleverbotB = new Cleverbot;
+		this.cleverbot = new Cleverbot;
+		this.cleverbot.configure({botapi: "YOURAPIKEY"});
 		this.promptA(promptString);
 	}
 	promptA(message) {
 		if (this.destroyed) return;
 		Cleverbot.prepare(function() {
-			this.CleverbotA.write(message, function(response) {
+			this.cleverbot.write(message, function(response) {
 				console.log("Cleverbot A: " + response.message);
 				this.socket.emit('a', response.message);
 				setTimeout(function() {
@@ -52,7 +52,7 @@ class Conversation {
 	promptB(message) {
 		if (this.destroyed) return;
 		Cleverbot.prepare(function() {
-			this.CleverbotB.write(message, function(response) {
+			this.cleverbot.write(message, function(response) {
 				console.log("Cleverbot B: " + response.message);
 				this.socket.emit('b', response.message);
 				setTimeout(function() {
