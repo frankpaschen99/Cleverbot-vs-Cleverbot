@@ -1,6 +1,6 @@
 /* FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. */
 
-var API_KEY = "abc_xyz";
+var API_KEY = "CCCmur1ap4FzzgHSomY5EEQVM_w";
 
 io = require('socket.io').listen(3000);
 Cleverbot = require('cleverbot-node');

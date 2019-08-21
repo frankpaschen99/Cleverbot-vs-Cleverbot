@@ -1,1 +1,1 @@
-node --harmony index.js
+node index.js
