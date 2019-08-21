@@ -9,7 +9,7 @@ no guarantees lol
 # Examples:
 
 
-![Imgur Album](https://imgur.com/a/nEZMfTM)
+[Imgur Album](https://imgur.com/a/nEZMfTM)
 
 ----------------------------------------------------------------------------
 Cleverbot A: Pizza dog, pizza dog, put 'em in the oven and watch 'em grow! Aye, it's pizza dog, pizza dog, bow bow shut y'er mouth
