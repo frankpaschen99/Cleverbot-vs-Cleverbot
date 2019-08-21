@@ -1,5 +1,7 @@
 /* FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. FUCK. JAVASCRIPT. */
 
+var API_KEY = "abc_xyz";
+
 io = require('socket.io').listen(3000);
 Cleverbot = require('cleverbot-node');
 class ConversationHandler {
@@ -34,7 +36,7 @@ class Conversation {
 		this.socket = _socket;
 		this.destroyed = false;
 		this.cleverbot = new Cleverbot;
-		this.cleverbot.configure({botapi: "YOURAPIKEY"});
+		this.cleverbot.configure({botapi: API_KEY});
 		this.promptA(promptString);
 	}
 	promptA(message) {

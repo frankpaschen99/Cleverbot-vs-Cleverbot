@@ -1,8 +1,10 @@
-register for an api key at cleverbot.com, then put it in index.js line 37
+1. Register for an api key at cleverbot.com, then throw it into the API_KEY variable in server/index.js
 
-run the server using node --harmony index.js
+2. Run the server using node --harmony index.js or just click START_SERVER.bat
 
-then load up the index.html on an apache server and im sure it'll work
+3. Load up the index.html on an apache server and im sure it'll work
+
+no guarantees lol
 
 # Examples:
 
