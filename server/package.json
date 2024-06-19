@@ -4,6 +4,6 @@
   "description": "Start a Cleverbot conversation with itself!",
   "dependencies": {
     "cleverbot-node": "^0.3.11",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.5.0"
   }
 }
